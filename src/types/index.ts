@@ -1,7 +1,7 @@
 // Ответ от API, содержащий список элементов
-type ApiListResponse<Type> = {
+type ApiListResponse<Product> = {
   total: number,   // общее количество элементов
-  items: Type[]    // массив элементов
+  items: Product[]    // массив элементов
 };
 
 // Допустимые методы для HTTP-запросов
@@ -30,4 +30,52 @@ interface IEvents {
   on<T extends object>(event: EventName, callback: (data: T) => void): void;  // метод подписки на событие
   emit<T extends object>(event: string, data?: T): void;                     // метод генерации события
   trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void;  // метод создания триггера события
+}
+
+// Интерфейс для товара
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+}
+
+// Интерфейс для заказанного товара
+interface OrderedProduct extends Product {
+  quantity: number;
+  total: number;
+}
+
+// Интерфейс для корзины
+interface Cart {
+  items: OrderedProduct[];
+}
+
+// Перечисление для способов оплаты
+enum PaymentMethod {
+  CREDIT_CARD = 'Credit Card',
+  CASH = 'Cash on Delivery'
+}
+
+// Интерфейс для адреса доставки
+interface ShippingAddress {
+  street: string;
+  city: string;
+  postalCode: string;
+  country?: string; // Необязательное поле
+}
+
+// Интерфейс для контактной информации
+interface ContactInfo {
+  email: string;
+  phone: string;
+}
+
+// Интерфейс для заказа
+interface Order {
+  items: OrderedProduct[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: PaymentMethod;
+  contactInfo: ContactInfo;
 }
