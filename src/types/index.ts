@@ -33,13 +33,15 @@ interface IEvents {
 }
 
 // Интерфейс для товара
-interface Product {
-  id: number;
-  name: string;
+export interface Product {
+  id: string;
+  category: string;
+  title: string;
+  image: string;
   description: string;
   price: number;
-  image: string;
 }
+
 
 // Интерфейс для заказанного товара
 interface OrderedProduct extends Product {
