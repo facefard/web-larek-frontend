@@ -1,4 +1,5 @@
 import { Product } from "../../types";
+import { CDN_URL } from "../../utils/constants";
 
 export class ProductRenderer {
   renderProduct(product: Product): HTMLElement {
@@ -23,7 +24,7 @@ export class ProductRenderer {
       titleElement.textContent = product.title;
 
       const imageElement = card.querySelector(".card__image") as HTMLImageElement;
-      imageElement.src = product.image;
+      imageElement.src = `${CDN_URL}/${product.image}`;
       imageElement.alt = product.title;
 
       const priceElement = card.querySelector(".card__price") as HTMLElement;
