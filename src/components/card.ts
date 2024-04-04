@@ -1,8 +1,8 @@
-import { Component } from "./base/Copmonent";
+import { Component } from "./base/copmonent";
 import { CardType, CardClick } from "../types";
 import { ensureElement } from "../utils/utils";
 
-export class ProductRenderer extends Component<CardType> {
+export class CardsRenderer extends Component<CardType> {
     protected _title: HTMLElement;
     protected _image?: HTMLImageElement;
     protected _description?: HTMLElement;

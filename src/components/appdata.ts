@@ -1,7 +1,7 @@
-import { Model } from "./base/Model";
+import { Model } from "./base/model";
 import { FormError, AllInfo, Product, ShippingAddress, ContactInfo, Order } from "../types";
 
-export class OtherFunctions extends Model<AllInfo> {
+export class AppData extends Model<AllInfo> {
     basket: Product[]=[];
     catalog: Product[];
     loading: boolean;
@@ -82,10 +82,10 @@ export class OtherFunctions extends Model<AllInfo> {
     validationContacts(){
         const errors: typeof this.formErrors = {};
         if (!this.order.email) {
-            errors.email = ' ';
+            errors.email = 'Заполните поле Email';
         }
         if (!this.order.phone) {
-            errors.phone = ' ';
+            errors.phone = 'Заполните поле Телефон';
         }
         this.formErrors = errors;
         this.events.emit('formErrors:change', this.formErrors);
@@ -95,16 +95,11 @@ export class OtherFunctions extends Model<AllInfo> {
     validationShipping(){
         const errors: typeof this.formErrors = {};
         if (!this.order.address) {
-            errors.address = ' ';
+            errors.address = 'Заполните поле Адрес';
         }
 
         this.formErrors = errors;
         this.events.emit('formErrors:change', this.formErrors);
         return Object.keys(errors).length === 0;
     }    
-}
-
-export const PayChange:{[key:string]:string}={
-    card: 'online',
-    cash: 'cash',
 }

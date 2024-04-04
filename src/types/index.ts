@@ -13,11 +13,6 @@ export interface ProductApiType {
   orderProduct: (order: Order) => Promise<OrderResult>;
 }
 
-export interface OrderedProduct extends Product {
-  quantity: number;
-  total: number;
-}
-
 export interface ShippingAddress {
   payment: string;
   address: string;
@@ -90,3 +85,8 @@ export interface SuccessType {
 export type CatalogChangeEvent = {
   catalog: Product[]
 };
+
+export const PayChange:{[key:string]:string}={
+  card: 'online',
+  cash: 'cash',
+}

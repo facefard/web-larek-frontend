@@ -1,14 +1,17 @@
 import './scss/styles.scss';
 
-import { WebApi } from './components/WebApi';
+import { WebApi } from './components/webApi';
 import { API_URL, CDN_URL } from "./utils/constants";
 import { EventEmitter } from "./components/base/events";
-import { OtherFunctions, PayChange } from './components/other';
-import { ProductRenderer } from './components/card';
+import { AppData } from './components/appdata';
+import { CardsRenderer } from './components/card';
 import { cloneTemplate, ensureElement } from "./utils/utils";
-import { Product, ShippingAddress, ContactInfo, Order, CatalogChangeEvent } from "./types";
+import { Product, ShippingAddress, ContactInfo, Order, CatalogChangeEvent, PayChange } from "./types";
 import { Contacts, Shipping } from './components/order';
-import { Modal, Page, Basket, Success } from './components/modals';
+import { Modal } from './components/modal';
+import { Page } from './components/page';
+import { Basket } from './components/basket';
+import { Success } from './components/success';
 
 // Создание экземпляра событий
 const events = new EventEmitter();
@@ -24,7 +27,7 @@ const cardBasketTemplate = ensureElement<HTMLTemplateElement>('#card-basket');
 const contactsTemplate = ensureElement<HTMLTemplateElement>('#contacts');
 
 // Создание экземпляра модели данных
-const appData = new OtherFunctions({}, events);
+const appData = new AppData({}, events);
 
 // Создание экземпляров глобальных компонентов
 const page = new Page(document.body, events);
@@ -41,7 +44,7 @@ const basket = new Basket(cloneTemplate(basketTemplate), events);
 events.on('basket:changed', (items: Product[]) => {
     // Обновление отображения корзины
     basket.items = items.map((item, index) => {
-        const card = new ProductRenderer(cloneTemplate(cardBasketTemplate), {
+        const card = new CardsRenderer(cloneTemplate(cardBasketTemplate), {
             onClick: () => {
                 events.emit('product:delete', item);
             },
@@ -73,7 +76,7 @@ events.on('card:select', (item: Product) => {
 // Подписка на изменение выбранного товара
 events.on('preview:changed', (item: Product) => {
     // Отображение выбранного товара в модальном окне
-    const card = new ProductRenderer(cloneTemplate(cardPreviewTemplate), {
+    const card = new CardsRenderer(cloneTemplate(cardPreviewTemplate), {
         onClick: () => {
             events.emit('product:toggle', item);
             card.titleBtn = appData.basket.indexOf(item) < 0 ? 'В корзину' : 'Убрать'
@@ -107,7 +110,9 @@ events.on('product:add', (item: Product) => appData.addItem(item));
 events.on('payment:toggle', (target: HTMLElement) => {
     if (!target.classList.contains('button_alt-active')) {
         shipping.toggleButton(target);
-        appData.order.payment = PayChange[target.getAttribute('name')];
+        if (!appData.order.payment) {
+            appData.order.payment = PayChange[target.getAttribute('name')];
+        }
         console.log(appData.order);
     }
 });
@@ -166,7 +171,7 @@ api.getProductList()
 // Подписка на изменение списка товаров в каталоге
 events.on<CatalogChangeEvent>('items:changed', () => {
     page.catalog = appData.catalog.map(item => {
-        const card = new ProductRenderer(cloneTemplate(cardCatalogTemplate), {
+        const card = new CardsRenderer(cloneTemplate(cardCatalogTemplate), {
             onClick: () => events.emit('card:select', item)
         });
         return card.render({

@@ -1,4 +1,4 @@
-import { Form } from "./modals";
+import { Form } from "./form";
 import { ShippingAddress, ContactInfo, CardClick } from "../types";
 import { IEvents } from "./base/events";
 import { ensureElement } from "../utils/utils";
