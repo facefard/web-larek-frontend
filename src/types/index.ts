@@ -1,4 +1,3 @@
-// Интерфейс для товара
 export interface Product {
   id: string;
   category: string;
@@ -14,25 +13,21 @@ export interface ProductApiType {
   orderProduct: (order: Order) => Promise<OrderResult>;
 }
 
-// Интерфейс для заказанного товара
 export interface OrderedProduct extends Product {
   quantity: number;
   total: number;
 }
 
-// Интерфейс для адреса доставки
 export interface ShippingAddress {
   payment: string;
   address: string;
 }
 
-// Интерфейс для контактной информации
 export interface ContactInfo {
   email: string;
   phone: string;
 }
 
-// Интерфейс для заказа
 export interface Order extends ShippingAddress, ContactInfo {
   total: number;   
   items: string[];
