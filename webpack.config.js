@@ -19,6 +19,9 @@ const config = {
   devtool: "source-map",
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: '[name].[contenthash].js',
+    publicPath: '/web-larek-frontend/',
+    clean: true,
   },
   devServer: {
     open: true,
