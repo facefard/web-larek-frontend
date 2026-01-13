@@ -32,6 +32,7 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.13.3"
   },
+  "homepage": "https://facefard.github.io/web-larek-frontend",
   "description": "My webpack project",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
